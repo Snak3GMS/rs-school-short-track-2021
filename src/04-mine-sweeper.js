@@ -21,8 +21,39 @@
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new Error('Not implemented');
+function minesweeper(matrix) {
+  const mineFields = [...matrix];
+  mineFields.forEach((elem, index) => {
+    mineFields[index] = elem.map(() => 0);
+    return true;
+  });
+  matrix.forEach((elem, i) => {
+    elem.forEach((e, m) => {
+      if (e) {
+        if (mineFields[i][m - 1] !== undefined) { mineFields[i][m - 1] += 1; }
+        if (mineFields[i - 1] !== undefined && mineFields[i - 1][m - 1] !== undefined) {
+          mineFields[i - 1][m - 1] += 1;
+        }
+        if (mineFields[i - 1] !== undefined && mineFields[i - 1][m] !== undefined) {
+          mineFields[i - 1][m] += 1;
+        }
+        if (mineFields[i - 1] !== undefined && mineFields[i - 1][m + 1] !== undefined) {
+          mineFields[i - 1][m + 1] += 1;
+        }
+        if (mineFields[i][m + 1] !== undefined) { mineFields[i][m + 1] += 1; }
+        if (mineFields[i + 1] !== undefined && mineFields[i + 1][m + 1] !== undefined) {
+          mineFields[i + 1][m + 1] += 1;
+        }
+        if (mineFields[i + 1] !== undefined && mineFields[i + 1][m] !== undefined) {
+          mineFields[i + 1][m] += 1;
+        }
+        if (mineFields[i + 1] !== undefined && mineFields[i + 1][m - 1] !== undefined) {
+          mineFields[i + 1][m - 1] += 1;
+        }
+      }
+    });
+  });
+  return mineFields;
 }
 
 module.exports = minesweeper;

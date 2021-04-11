@@ -20,8 +20,29 @@
  * }
  *
  */
-function getDNSStats(/* domains */) {
-  throw new Error('Not implemented');
+function getDNSStats(domains) {
+  const levels = {};
+  const getUrlHierarchy = (domain) => {
+    const resArr = [];
+    const reverseDomain = domain.split('.').reverse().reduce((a, b) => {
+      resArr.push(`.${a}`);
+      return `${a}.${b}`;
+    });
+    resArr.push(`.${reverseDomain}`);
+    return resArr;
+  };
+
+  domains.forEach((link) => {
+    const hierarchy = getUrlHierarchy(link);
+    hierarchy.forEach((elem) => {
+      if (levels[elem] === undefined) {
+        levels[elem] = 1;
+      } else {
+        levels[elem] += 1;
+      }
+    });
+  });
+  return levels;
 }
 
 module.exports = getDNSStats;
